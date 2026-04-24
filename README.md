@@ -38,6 +38,3 @@ graph TD
     K --> L[Metrics: Accuracy, AUC, F1-Score]
 
 
-📝 Training Log & Results
-
-The notebook generates comprehensive training curves (Loss, Accuracy, AUC, and F1) to visualize model convergence and detect any potential overfitting early in the training phase.
