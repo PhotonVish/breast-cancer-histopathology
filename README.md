@@ -1,10 +1,4 @@
--> Developed a Deep Learning-based Histopathology Classifier using PyTorch and the ConvNeXt architecture to detect Invasive Ductal Carcinoma (IDC) with ~90% Accuracy and 0.95 AUC
-
--> Engineered a robust preprocessing pipeline using Elastic Transformations and Stochastic Depth regularization to handle high intra-class variance in medical imaging.
-
--> Optimized model performance using Transfer Learning and Test-Time Augmentation (TTA), reducing false positives while maintaining high sensitivity on an imbalanced dataset of 277k+ patches.
-
-Breast Histopathology Image Classification
+**Breast Histopathology Image Classification**
 
 This project implements a deep learning pipeline to classify breast cancer histopathology images (IDC vs. Non-IDC) using the convnext_tiny architecture. It is specifically designed to maximize Accuracy while implementing robust strategies to prevent Overfitting in medical imaging datasets.
 🛠️ Key Features
