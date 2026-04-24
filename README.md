@@ -22,7 +22,7 @@ graph TD
     A[Raw Data: Breast Histopathology Images] --> B{Slide-Level Grouping}
     B --> C[Stratified Split: Train/Val/Test]
     
-    subgraph Training_Phase
+   subgraph Training_Phase
     C --> D[Heavy Data Augmentation]
     D --> E[ConvNeXt-Tiny Model]
     E --> F[Loss Calculation: Weighted CrossEntropy]
@@ -39,6 +39,7 @@ graph TD
     
     K --> L[Metrics: ACC, AUC, F1, Precision, Recall]
     L --> M[Visualization: Training Curves]
+    
 
 🚀 Getting Started
 Prerequisites
