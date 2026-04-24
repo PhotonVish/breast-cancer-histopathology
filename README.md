@@ -1,102 +1,38 @@
-**Breast Histopathology Image Classification**
+# Breast Histopathology Image Classification (IDC Detection)
 
-This project implements a deep learning pipeline to classify breast cancer histopathology images (IDC vs. Non-IDC) using the convnext_tiny architecture. It is specifically designed to maximize Accuracy while implementing robust strategies to prevent Overfitting in medical imaging datasets.
-🛠️ Key Features
+This project implements a deep learning pipeline to classify breast cancer histopathology images as Invasive Ductal Carcinoma (IDC) or non-IDC. The model is built using the `convnext_tiny` architecture and is specifically optimized to maximize accuracy while preventing overfitting through advanced regularization and data augmentation techniques.
 
-    Slide-Level Splitting: Ensures that all patches from a single patient (slide) stay within the same set (Train/Val/Test), preventing data leakage.
+## 🚀 Key Technical Features
 
-    Heavy Augmentation: Utilizes aggressive geometric and color transforms to improve model generalization.
+- **Model Architecture:** Utilizes `convnext_tiny` from the `timm` library with pretrained weights.
+- **Overfitting Prevention:** - **Slide-Level Splitting:** Ensures that all image patches from a single patient (slide) are grouped together in either train, validation, or test sets to prevent data leakage.
+    - **Heavy Augmentation:** Includes RandomResizedCrop, RandomHorizontalFlip, RandomVerticalFlip, ColorJitter, and GaussianBlur.
+    - **Regularization:** Implements Dropout (0.3) and Stochastic Depth (0.2).
+- **Optimization:** Uses `AdamW` optimizer with a `CosineAnnealingLR` scheduler.
+- **Hardware Acceleration:** Supports Mixed Precision training (`torch.amp`) and Multi-GPU setups (`DataParallel`).
 
-    Regularization: Implements Dropout and Stochastic Depth (Drop Path) to mitigate memorization.
+## 📊 Pipeline Workflow
 
-    Mixed Precision & Multi-GPU: Optimized for NVIDIA GPUs using torch.amp and DataParallel.
+The following diagram illustrates the data processing and training pipeline:
 
-    Advanced Scheduling: Uses Cosine Annealing learning rate scheduling for smooth convergence.
-
-📊 Project Workflow
-
-The following flowchart illustrates the end-to-end pipeline from data ingestion to model evaluation:
-Code snippet
-
+```mermaid
 graph TD
-    A[Raw Data: Breast Histopathology Images] --> B{Slide-Level Grouping}
-    B --> C[Stratified Split: Train/Val/Test]
+    A[Input: Breast Histopathology Patches] --> B{Slide-Level Grouping}
+    B --> C[Stratified Dataset Split]
     
-   subgraph Training_Phase
+    subgraph "Training Pipeline"
     C --> D[Heavy Data Augmentation]
-    D --> E[ConvNeXt-Tiny Model]
-    E --> F[Loss Calculation: Weighted CrossEntropy]
+    D --> E[ConvNeXt-Tiny Architecture]
+    E --> F[Weighted CrossEntropy Loss]
     F --> G[Backpropagation & AdamW]
     G --> H[Cosine Annealing Scheduler]
     H --> E
     end
     
-    subgraph Evaluation_Phase
-    E --> I[Validation Monitoring: Accuracy/AUC]
-    I -->|Best Metric| J[Checkpoint: best_model.pth]
+    subgraph "Evaluation"
+    E --> I[Validation Set Tracking]
+    I -->|Save Best| J[best_model.pth]
     J --> K[Final Test Evaluation]
     end
     
-    K --> L[Metrics: ACC, AUC, F1, Precision, Recall]
-    L --> M[Visualization: Training Curves]
-    
-
-🚀 Getting Started
-Prerequisites
-
-    Python 3.8+
-
-    PyTorch 2.0+
-
-    timm (PyTorch Image Models)
-
-    NVIDIA GPU with CUDA support
-
-Installation
-Bash
-
-pip install torch torchvision timm pandas scikit-learn matplotlib pillow
-
-Dataset Structure
-
-The project supports two common Kaggle layouts:
-
-    Layout A: slide_id/class_id/patch_name.png
-
-    Layout B: Flat directory with filenames like slideID_class0.png
-
-Update the KAGGLE_INPUT_DIR in the notebook to point to your data source.
-🧠 Model Configuration
-
-The model is initialized via the timm library with specific settings to combat overfitting:
-Python
-
-model = timm.create_model(
-    "convnext_tiny", 
-    pretrained=True, 
-    num_classes=2, 
-    drop_rate=0.3,       # Final layer dropout
-    drop_path_rate=0.2   # Stochastic depth
-)
-
-📈 Performance Monitoring
-
-The notebook tracks several key metrics to ensure clinical relevance:
-
-    Accuracy: The primary target for this version.
-
-    ROC-AUC: Measures the model's ability to distinguish between classes.
-
-    F1-Score: Balances Precision and Recall, crucial for medical diagnosis.
-
-📂 File Description
-
-    v3-1-overfitting-acc.ipynb: The main training and evaluation notebook.
-
-    best_model.pth: Full checkpoint including optimizer state.
-
-    best_model_weights_only.pth: Lightweight version for deployment.
-
-📝 License
-
-This project is for educational and research purposes. Please ensure compliance with the original dataset license when using histopathology images.
+    K --> L[Metrics: Accuracy, AUC, F1-Score]
