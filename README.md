@@ -36,3 +36,41 @@ graph TD
     end
     
     K --> L[Metrics: Accuracy, AUC, F1-Score]
+🛠️ Setup and Installation
+Prerequisites
+
+    Python 3.8+
+
+    PyTorch 2.0+
+
+    timm (PyTorch Image Models)
+
+    NVIDIA GPU with CUDA support
+
+Installation
+Bash
+
+pip install torch torchvision timm pandas scikit-learn matplotlib pillow
+
+📂 Dataset Structure
+
+The notebook is designed to handle the Kaggle Breast Histopathology dataset. Ensure your data is structured in one of the following formats:
+
+    Nested: slide_id/class_id/patch_name.png
+
+    Flat: slideID_idx5_x_y_class0.png
+
+Update the KAGGLE_INPUT_DIR variable in the script to point to your dataset location.
+📈 Performance Metrics
+
+The training process monitors:
+
+    Accuracy: The primary target metric for model evaluation.
+
+    ROC-AUC: To measure the separability between IDC and non-IDC classes.
+
+    F1-Score: To ensure a balance between precision and recall, which is critical for medical diagnosis.
+
+📝 Training Log & Results
+
+The notebook generates comprehensive training curves (Loss, Accuracy, AUC, and F1) to visualize model convergence and detect any potential overfitting early in the training phase.
